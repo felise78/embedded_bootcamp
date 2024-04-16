@@ -1,6 +1,9 @@
 TARGET		=	setup
 CC			=	avr-gcc
 
+BIN_FILE	=	$(TARGET).bin
+HEX_FILE	=	$(TARGET).hex
+
 # -DF_CPU=16000000UL difinit la frequence du microcontroleur a 16MHz
 # La directive -D dans les options de compilation (CFLAGS) est utilisée pour définir 
 # des macros au niveau du préprocesseur. Cela définit une macro appelée F_CPU avec une 
@@ -26,18 +29,15 @@ CFLAGS		=	-mmcu=atmega328p -Os -DF_CPU=16000000UL
 
 SRC			=	main.c
 
-all: hex flash
+all: $(BIN_FILE) $(HEX_FILE) flash 
 
-# pour générer le fichier hex
-# compile le fichier source C en un fichier binaire (main.bin) en utilisant la 
-# variable F_CPU pour définir la fréquence du microcontrôleur, puis génère le fichier 
-# hex (main.hex) à partir du fichier binaire.
-
-hex: $(SRC)
+$(BIN_FILE): $(SRC)
 	$(CC) $(CFLAGS) -o $(TARGET).bin $^
-	avr-objcopy -O ihex -R .eeprom $(TARGET).bin $(TARGET).hex
 
-# flash le microcontrôleur
+$(HEX_FILE): $(BIN_FILE)
+	avr-objcopy -O ihex -R .eeprom $(TARGET).bin $@
+
+# flashe le microcontrôleur
 flash:
 	avrdude -c arduino -b 115200 -p atmega328p -P /dev/ttyUSB0 -U flash:w:$(TARGET).hex
 

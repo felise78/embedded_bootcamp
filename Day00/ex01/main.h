@@ -31,22 +31,24 @@
 
 /* BROCHE (I/O) Entree/Sortie  /  GPIO : "General Purpose Input/Output"  */
 
-// Une broche d'entrée/sortie (I/O) en électronique est une interface par laquelle un 
-// composant électronique, tel qu'un microcontrôleur, peut communiquer avec le monde extérieur. 
-// Cette broche peut être configurée pour fonctionner soit en tant qu'entrée, soit en tant 
-// que sortie, d'où le terme "entrée/sortie".
+// Une broche d'entrée/sortie (I/O) en électronique est une interface par laquelle 
+// un composant électronique, tel qu'un microcontrôleur, peut communiquer avec le monde 
+// extérieur. Cette broche peut être configurée pour fonctionner soit en tant qu'entrée, 
+// soit en tant que sortie, d'où le terme "entrée/sortie".
 
-// Entrée : Lorsqu'une broche est configurée en tant qu'entrée, elle peut recevoir des signaux 
-// ou des données provenant de l'extérieur. Par exemple, elle peut lire des données provenant 
-// de capteurs, de boutons ou d'autres périphériques électroniques. L'état de l'entrée peut
-// être lu par le composant électronique qui la contrôle, comme un microcontrôleur.
+// Entrée : Lorsqu'une broche est configurée en tant qu'entrée, elle peut recevoir des 
+// signaux ou des données provenant de l'extérieur. Par exemple, elle peut lire des données
+// provenant de capteurs, de boutons ou d'autres périphériques électroniques. L'état de 
+// l'entrée peut être lu par le composant électronique qui la contrôle, comme un 
+// microcontrôleur.
 
-// Sortie : Lorsqu'une broche est configurée en tant que sortie, elle peut envoyer des signaux
-// ou des données vers des dispositifs externes. Par exemple, elle peut envoyer des signaux à
-// des actionneurs tels que des moteurs, des LED ou d'autres composants pour les contrôler.
+// Sortie : Lorsqu'une broche est configurée en tant que sortie, elle peut envoyer des 
+// signaux ou des données vers des dispositifs externes. Par exemple, elle peut envoyer 
+// des signaux à des actionneurs tels que des moteurs, des LED ou d'autres composants pour 
+// les contrôler.
 
-// Les broches d'entrée/sortie sont fondamentales dans la conception de circuits électroniques
-// car elles permettent aux composants de communiquer et d'interagir avec le monde extérieur.
-// La capacité à contrôler et à lire des signaux provenant de divers périphériques externes est
-// cruciale dans de nombreux systèmes embarqués, comme les robots, les appareils IoT et les
-// systèmes de contrôle industriels.
+// Les broches d'entrée/sortie sont fondamentales dans la conception de circuits 
+// électroniques car elles permettent aux composants de communiquer et d'interagir avec le 
+// monde extérieur. La capacité à contrôler et à lire des signaux provenant de divers 
+// périphériques externes est cruciale dans de nombreux systèmes embarqués, comme les 
+// robots, les appareils IoT et les systèmes de contrôle industriels.

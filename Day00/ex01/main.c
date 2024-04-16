@@ -17,7 +17,6 @@ int main ()
     PORTB |= (1 << PB0);
 
     while (1) {
-
     }
     
     return 0;
