@@ -29,12 +29,12 @@ CFLAGS		=	-mmcu=atmega328p -Os -DF_CPU=16000000UL
 
 SRC			=	main.c
 
-all: $(BIN_FILE) $(HEX_FILE) flash 
+all: $(BIN_FILE) hex flash 
 
 $(BIN_FILE): $(SRC)
 	$(CC) $(CFLAGS) -o $(TARGET).bin $^
 
-$(HEX_FILE): $(BIN_FILE)
+hex: $(BIN_FILE)
 	avr-objcopy -O ihex -R .eeprom $(TARGET).bin $@
 
 # flashe le microcontrôleur
