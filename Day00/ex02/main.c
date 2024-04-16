@@ -22,12 +22,5 @@ int main(void) {
     return 0;
 }
 
-// Dans cet exemple, nous utilisons les registres DDRD, PORTD pour configurer la broche 
-// PD2 (SW1) comme une entrée avec la résistance de tirage activée, et nous utilisons le 
-// registre PIND pour lire l'état du bouton.
-
-// Ensuite, nous utilisons les registres DDRB, PORTB pour configurer la broche PB0 (D1) 
-// comme une sortie, et nous contrôlons son état en fonction de l'état du bouton LU du registre PIN.
-
-// Ce code est conçu pour boucler indéfiniment, vérifiant constamment l'état du bouton 
-// et mettant à jour l'état de la LED en conséquence.
+// Le registre PINX donne l'etat actuel de toutes les broches configurees 
+// comme entrees (definie a 0 dans le registre DDRX correspondant)

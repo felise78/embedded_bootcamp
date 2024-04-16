@@ -21,32 +21,41 @@ int main(void) {
     // Configurer les broches PB0, PB1, PB2 et PB4 (LEDs D1, D2, D3 et D4) en tant que sorties
     DDRB |= ((1 << LED1_PIN) | (1 << LED2_PIN) | (1 << LED3_PIN) | (1 << LED4_PIN));
 
-    // Mettre à jour les LEDs pour la première fois
     update_leds();
 
     while (1) {
+
         // Lire l'état des boutons SW1 et SW2
+
         if (!(PIND & (1 << SW1_PIN))) { // Si SW1 est enfoncé
-            _delay_ms(50); // Attendre un court laps de temps pour éviter les rebonds
+            _delay_ms(50); 
             if (!(PIND & (1 << SW1_PIN))) { // Vérifier à nouveau l'état après la temporisation
-                value++; // Incrémenter la valeur
+                value++; // 
                 if (value == 16)
                     value = 0;
-                update_leds(); // Mettre à jour les LEDs
+                update_leds(); 
                 while (!(PIND & (1 << SW1_PIN))); // Attendre que le bouton soit relâché
             }
         }
 
         if (!(PIND & (1 << SW2_PIN))) { // Si SW2 est enfoncé
-            _delay_ms(50); // Attendre un court laps de temps pour éviter les rebonds
+            _delay_ms(50);
             if (!(PIND & (1 << SW2_PIN))) { // Vérifier à nouveau l'état après la temporisation
                 if (value == 0)
                     value = 16;
-                value--; // Décrémenter la valeur
-                update_leds(); // Mettre à jour les LEDs
+                value--; 
+                update_leds();
                 while (!(PIND & (1 << SW2_PIN))); // Attendre que le bouton soit relâché
             }
         }
     }
     return 0;
 }
+
+// L'expression "activer les résistances de tirage" dans le contexte des boutons switch sur 
+// un circuit embarqué signifie qu'il faut permettre le courant de circuler à travers les 
+// résistances de tirage associées à ces boutons. Ces résistances sont souvent utilisées dans 
+// les circuits pour maintenir un niveau logique stable lorsque le bouton n'est pas activé. 
+// En activant ces résistances, on s'assure que le circuit fonctionne correctement et que les 
+// signaux sont correctement interprétés, même lorsque les boutons ne sont pas en cours 
+// d'utilisation.

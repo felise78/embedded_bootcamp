@@ -1,19 +1,13 @@
 #include "main.h"
 
-// Configurer le port B (où se trouve le PB0) en tant que sortie en définissant le bit 
-// correspondant du registre DDRB.
-// Mettre le bit correspondant du registre PORTB à 1 pour allumer la LED.
-
-// Vous devez à chaque fois expliquer la fonction et les valeurs
-// assignées aux registres en commentaire !
-
-// p88 du Data Sheet
 int main ()
 {
-	// Configurer la broche PB0 (D1) en tant que sortie (1) / HIGH
+	// Configure le port B du registre DDRB où se trouve la broche PB0
+    // ( a laquelle est connectee la LED D1 ) en tant que sortie (1) en definissant le bit a 1.
     DDRB |= (1 << PB0);
 
-    // Allumer la LED D1 (PB0)
+    // Allume la LED D1 en mettant le bit de la broche PB0 a 1 dans le registre PORTB
+    // pour faire passer la broche en niveau logique HIGH (1) / (mise sous tension)
     PORTB |= (1 << PB0);
 
     while (1) {
