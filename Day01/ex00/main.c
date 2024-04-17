@@ -7,10 +7,10 @@ int main(void) {
 
     volatile uint32_t time_counter = 0;
 
-    // calcul du nombre d'iterations :  
+    // calcul du nombre d'iterations necessaires pour arriver a 0.5 secondes :  
     // 
-    // 0.5 x 16 000 000
-    // = 8 000 000 / 3 = 266667
+    // 0.5 x F_CPU = 8 000 000
+    // 8 000 000 / 3 = 266667
 
     while (1) {
 
@@ -25,3 +25,6 @@ int main(void) {
 
     return 0;
 }
+
+// maybe try without a if 
+// while ( i < 100000UL )

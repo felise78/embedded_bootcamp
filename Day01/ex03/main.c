@@ -19,21 +19,24 @@ int main()
 	{
         if (!(PIND & (1 << SW1_PIN))) { // Si SW1 est enfoncé // incremente de 10 %
             _delay_ms(10); 
-            if (!(PIND & (1 << SW1_PIN))) {
+           // if (!(PIND & (1 << SW1_PIN))) {
                 if (OCR1A < ICR1)
 					OCR1A += gap;
-                while (!(PIND & (1 << SW1_PIN)));
-            }
+               while (!(PIND & (1 << SW1_PIN)));
+          //  }
         }
 
         if (!(PIND & (1 << SW2_PIN))) { // Si SW2 est enfoncé // decremente de 10 %
             _delay_ms(10);
-            if (!(PIND & (1 << SW2_PIN))) { 
+          //  if (!(PIND & (1 << SW2_PIN))) { 
                 if (OCR1A > gap)
 					OCR1A -= gap;
-                while (!(PIND & (1 << SW2_PIN)));
-            }
+              while (!(PIND & (1 << SW2_PIN)));
+           // }
         }
     }
-    return 0;
+    return 0; 
 }
+
+// pas forcement une bonne pratique d'avoir des boucles while ici, il vaudrait mieux 
+// avoir des booleens. 
