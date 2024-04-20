@@ -1,5 +1,9 @@
 #include "main.h"
 
+
+volatile uint8_t ack = 0;
+
+
 void i2c_init() {
 
     TWSR = 0;                   // Réglage de prescaler à 1
@@ -40,7 +44,7 @@ void i2c_read(void) {
    //     temp_data[i] = TWDR;                // Read temperature data
        // print_hex_value(TWDR);
         TWCR = (1 << TWINT) | (1 << TWEN);  // Continue reading
-        TWCR |= (1 << TWEA);                 // TWEA to 1 enable the ack
+        TWCR |= (ack << TWEA);                 // TWEA to 1 enable the ack
         while (!(TWCR & (1 << TWINT)));     // Wait for transmission to complete
    // }
    // temp_data[5] = TWDR;                    // Read last byte
@@ -60,11 +64,11 @@ int main ()
 
     i2c_write(AHT20_ADDR << 1);
     
-    i2c_write(0x71);
-    i2c_stop();
-    i2c_start();
-    i2c_write((AHT20_ADDR << 1) | 0x01);
-    i2c_read();
+    // i2c_write(0x71);
+    // i2c_stop();
+    // i2c_start();
+    // i2c_write((AHT20_ADDR << 1) | 0x01);
+    // i2c_read();
 
  
     if (!(TWDR & (1 << 3))) //p8 de l'autre doc // si la calib est pas faite
@@ -78,37 +82,57 @@ int main ()
         _delay_ms(10);
     }
     i2c_stop();
+    
+
     while (1)
     {
         i2c_start();
-
         i2c_write(AHT20_ADDR << 1);
-        i2c_write(CMD_MSR);
-        i2c_write(DATA0);
-        i2c_write(DATA1);
-
+        uint8_t tab[] = {CMD_MSR, DATA0, DATA1};
+        for (int i = 0; i < 3; ++i)
+        {
+            i2c_write(tab[i]);
+            if (TW_STATUS != TW_MT_DATA_ACK)
+                uart_error("error_write");
+            
+        }
         i2c_stop();
         _delay_ms(100);
+        
         i2c_start();
 
         i2c_write((AHT20_ADDR << 1) | 0x01); // addr + reading bit
         
-        i2c_read();
+
+        do {
+            ack = 1;
+            i2c_read();
+            if (TW_STATUS != TW_MR_DATA_ACK)
+                uart_error("erreur read ack");
+        }
+        while ((TWDR & (1<< 7)));
+
         print_hex_value(TWDR);
         uart_tx(' ');
-        if (!(TWDR & (1<< 7)))
-        {
-            for (int i = 0; i < 6; ++i) {
-                i2c_read();
-                print_hex_value(TWDR);
-                uart_tx(' ');
-            } 
+        for (int i = 0; i < 5; ++i) {
+            ack = 1;
+            i2c_read();
+            if (TW_STATUS != TW_MR_DATA_ACK)
+                uart_error("erreur read ack");
+            print_hex_value(TWDR);
+            uart_tx(' ');
         }
+
+        ack = 0;
+        i2c_read();
+        if (TW_STATUS != TW_MR_DATA_NACK)
+            uart_error("error read nack");
+        print_hex_value(TWDR);
         uart_tx('\r');
         uart_tx('\n');
 
         i2c_stop();
-        _delay_ms(1000);
+        _delay_ms(200);
     }
 }
 

@@ -22,3 +22,17 @@ void uart_printstr(const char *str)
         uart_tx(*str++);
     }
 }
+
+void uart_success(const char* msg)
+{
+    uart_printstr("\x1b[32m");
+    uart_printstr(msg);
+    uart_printstr("\x1b[0m");
+}
+
+void uart_error(const char* msg)
+{
+    uart_printstr("\x1b[31m");
+    uart_printstr(msg);
+    uart_printstr("\x1b[0m");
+}

@@ -20,5 +20,7 @@
 	void	print_hex_value(char c);
 	void	uart_tx(char data);
 	void	uart_printstr(const char *str);
+	void uart_success(const char* msg);
+	void uart_error(const char* msg);
 
 #endif
