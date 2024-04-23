@@ -12,8 +12,18 @@ bool safe_eeprom_write(void *buffer, size_t offset, size_t length)
 	(void)offset;
 	(void)length;
 
-	uint8_t tmp = *(uint8_t*)buffer;
-	printf("%02X\n", tmp);
+	// test imprimer le contenu de buffer
+	uint8_t *tmp = (uint8_t*)buffer;
+	//printf("%02X\n", tmp);
+
+	// size_t i = 1;
+	// tmp = *((uint8_t*)buffer + i);
+	// printf("%02X\n", tmp);
+
+	for (size_t i = 0; i < length; i++) {
+        printf("%02X\n", tmp[i]);
+    }
+
 	// uint16_t magic = 0xFE42;
 
 	// uint8_t tmp_data;
@@ -54,8 +64,8 @@ bool safe_eeprom_write(void *buffer, size_t offset, size_t length)
 int main () {
 
 	char str[20] = "Hello world!\0";
-	int number = 0xAC;
+	int number = 0xFE42;
 
-	safe_eeprom_write(&number, 0, 0);
+	safe_eeprom_write(str, 0, sizeof(str));
 
 }
