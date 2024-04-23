@@ -3,26 +3,47 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#define EEPROM_SIZE 1024
+
 // 1024 octets de memoire EEPROM
 
 // bool safe_eeprom_read(void *buffer, size_t offset, size_t length)
 
+
+
 bool safe_eeprom_write(void *buffer, size_t offset, size_t length)
 {
 	(void)offset;
-	(void)length;
 
-	// test imprimer le contenu de buffer
-	uint8_t *tmp = (uint8_t*)buffer;
-	//printf("%02X\n", tmp);
-
-	// size_t i = 1;
-	// tmp = *((uint8_t*)buffer + i);
-	// printf("%02X\n", tmp);
-
-	for (size_t i = 0; i < length; i++) {
-        printf("%02X\n", tmp[i]);
+	// protections								  	   // taille du magic number
+	if (buffer == NULL || length == 0 || offset + length + sizeof(uint16_t) > EEPROM_SIZE) {
+        return false;
     }
+
+	// init du pointeur pour recup la data
+	uint8_t *buff = (uint8_t*)buffer;
+
+	// concatenation de mon magic number 0xFE42 + mes datas dans un buffer temp
+	uint8_t temp_buffer[length + sizeof(uint16_t)];
+	temp_buffer[0] = 0xFE;
+	temp_buffer[1] = 0x42;
+	for (size_t i = 2; i < length + 2; i++)
+	{
+		int j = i - 2;
+		temp_buffer[i] = buff[j];
+	}	
+
+
+	// test : imprimer le contenu de buffer
+
+	for (size_t i = 0; i < length + 2; i++) {
+		printf("%02X\n", temp_buffer[i]);
+    }
+
+	// for (size_t i = 0; i < length; i++) {
+    //     uint8_t tmp = buff[i];
+	// 	printf("%02X\n", tmp);
+    // }
 
 	// uint16_t magic = 0xFE42;
 
@@ -64,8 +85,8 @@ bool safe_eeprom_write(void *buffer, size_t offset, size_t length)
 int main () {
 
 	char str[20] = "Hello world!\0";
-	int number = 0xFE42;
+	uint16_t number = 0xFE42;
 
-	safe_eeprom_write(str, 0, sizeof(str));
+	safe_eeprom_write(&number, 0, sizeof(number));
 
 }
