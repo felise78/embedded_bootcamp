@@ -54,51 +54,12 @@ void convert_LED(uint8_t adc_value)
         SPI_set_LEDS(LED_ON, LED_ON, LED_ON);
 }
 
-// int main(void)
-// {
-//     SPI_init();
-
-//     while (1) 
-//     {
-//         _delay_ms(20);
-//     } 
-    
-//     return 0;
-// }
-
-#define MAX 13 // #FULLRAINBOW + '\r'
-
-bool strcmp_cheatcode(char *str)
-{
-    char cheatcode[MAX] = "#FULLRAINBOW\r";
-    uint8_t i = 0;
-    while (i < MAX)
-    {
-        if (cheatcode[i] != str[i])
-            return false;
-    }
-    return true;
-}
-
-bool parse(char *color)
-{
-    int i = 0;
-    if (color[0] != '#')
-        return false;
-    while (++i < 7)
-    {
-        //if (i == 2 && )
-        if ((color[i] < '0' || (color[i] > '9' && color[i] < 'A') || color[i] > 'F'))
-            return false;
-    }
-    return true;
-}
-
 
 int main ()
 {
-    _delay_ms(100);
+    SPI_init();
     uart_init();
+    _delay_ms(100);
     uart_printstr("Enter a value #RRGGBBDD : \r\n");
     char color[MAX];
     int i = 0;
@@ -138,6 +99,7 @@ int main ()
             uart_printstr("Enter a value #RRGGBBDD : \r\n");
             i = 0;
         }
+        _delay_ms(20);
     }
     return 0;
 }

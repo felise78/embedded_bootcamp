@@ -7,8 +7,7 @@ HEX_FILE	=	$(TARGET).hex
 CFLAGS		=	-mmcu=atmega328p -Os -DF_CPU=16000000UL -DBAUDRATE=115200
 
 SRC			=	main.c \
-				uart.c \
-				parsing.c
+				adc.c
 
 all: hex flash 
 
@@ -21,10 +20,10 @@ $(HEX_FILE): $(BIN_FILE)
 	avr-objcopy -O ihex -R .eeprom $(TARGET).bin $@
 
 flash:
-	screen -X quit &> /dev/null || true
-	sleep 1
+#	screen -X quit &> /dev/null || true
+#	sleep 1
 	avrdude -c arduino -b 115200 -p atmega328p -P /dev/ttyUSB0 -U flash:w:$(TARGET).hex
-	gnome-terminal -- screen /dev/ttyUSB0 115200
+#	gnome-terminal -- screen /dev/ttyUSB0 115200
 
 clean:
 	rm -f $(TARGET).bin $(TARGET).hex

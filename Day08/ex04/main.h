@@ -8,7 +8,8 @@
 	#include <stdlib.h>
 
 	#define UBRR_VALUE      ((F_CPU / (16 * BAUDRATE))) // p.182
-	
+	#define MAX 			13 // #FULLRAINBOW + '\r'
+
 	void uart_init();
 	void uart_tx(char data);
 	char uart_rx(void);
