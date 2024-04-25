@@ -7,23 +7,6 @@
 #define SPI_MISO    PB4
 #define SPI_SCK     PB5
 
-#define PADDING_BITS (0xFF)
-
-#define LED_OFF (0)
-
-/* Levels of brightness */
-#define B_LOW (0x01000000)
-#define B_MED (0x08000000)
-#define B_HIGH (0x1F000000)
-
-/* LED colors */
-#define RED (0xFF0000)
-#define GREEN (0x00FF00)
-#define BLUE (0x0000FF)
-#define YELLOW (0xFFFF00)
-#define CYAN (0x00FFFF)
-#define WHITE (0xFFFFFF)
-
 // Init the SPI as master, MOSI/SCK/SS pins as outputs.
 static inline void SPI_init(void)
 {

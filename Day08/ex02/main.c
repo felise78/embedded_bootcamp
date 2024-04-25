@@ -7,12 +7,11 @@
 #define SPI_MISO    PB4
 #define SPI_SCK     PB5
 
-
 #define LED_ON      0xFFFFFFFF
 #define LED_OFF     0xFF000000
 
 // Init the SPI as master, MOSI/SCK/SS pins as outputs.
-static inline void SPI_init(void)
+void SPI_init(void)
 {
 	DDRB |= (1 << SPI_MOSI) | (1 << SPI_SCK) | (1 << SPI_SS);
 
@@ -26,7 +25,7 @@ void SPI_MasterTransmit(char data)
     while(!(SPSR & (1<<SPIF)));
 }
 
-static inline void spi_send_32(uint32_t data)
+void spi_send_32(uint32_t data)
 {
 	SPI_MasterTransmit((uint8_t)(data >> 24));
 	SPI_MasterTransmit((uint8_t)(data >> 16));
@@ -34,7 +33,7 @@ static inline void spi_send_32(uint32_t data)
 	SPI_MasterTransmit((uint8_t)data);
 }
 
-static inline void SPI_set_LEDS(uint32_t led1, uint32_t led2, uint32_t led3)
+void SPI_set_LEDS(uint32_t led1, uint32_t led2, uint32_t led3)
 {
 
 	spi_send_32(0);
