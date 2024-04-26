@@ -55,17 +55,6 @@ uint8_t ADC_read(uint8_t channel) {
     return ADCH;
 }
 
-// void print_hex_value(unsigned char titouan) {
-
-// 	char buffer[3] = { '0', '0', '\0'};
-//     int i =  sizeof(buffer) - 1;
-// 	do {
-// 		buffer[--i] = "0123456789ABCDEF"[titouan & 0x0f];
-// 		titouan >>= 4;
-// 	} while (titouan);
-// 	uart_printstr(buffer);
-// }
-
 void wheel(uint8_t pos) {
     pos = 255 - pos;
     if (pos < 85) {
@@ -97,7 +86,6 @@ int main() {
     
     init_rgb();
     ADC_init(); 
-   // uart_init();
     init_leds();
 
     while (1) {
@@ -105,8 +93,6 @@ int main() {
         _delay_ms(20);
         wheel(adc_value);
         update_leds(adc_value);
-       // print_hex_value(adc_value);
-        //uart_printstr("\r\n");
     }
     
     return 0;

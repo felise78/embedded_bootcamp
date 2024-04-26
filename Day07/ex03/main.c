@@ -3,8 +3,8 @@
 
 // calcul de regression lineaire
 // https://calculis.net/droite-regression-lineaire
-#define TOS     272.38874895046
-#define k       0.94248530646516
+// #define TOS     272.38874895046
+// #define k       0.94248530646516
 
 void ADC_init() {
     
@@ -39,7 +39,7 @@ void    print_number(uint16_t x) {
 }
 
 int convertVoltageToTemperature(uint16_t voltage) {
-    return (int)(voltage * k - TOS);
+    return (int)(voltage * 25 / 314);
 }
 
 int main() {
