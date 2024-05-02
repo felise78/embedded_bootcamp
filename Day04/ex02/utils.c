@@ -1,3 +1,4 @@
+// #include <stdio.h>
 #include "main.h"
 
 void    print_number(uint8_t x) {
@@ -19,3 +20,9 @@ void print_hex_value(char c) {
 	uart_printstr(buffer);
 }
 
+//printf("%s\n", buffer);
+
+// int main()
+// {
+// 	print_hex_value(128);
+// }

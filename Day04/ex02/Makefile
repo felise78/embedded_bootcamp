@@ -7,10 +7,9 @@ HEX_FILE	=	$(TARGET).hex
 CFLAGS		=	-mmcu=atmega328p -Os -DF_CPU=16000000UL -DBAUDRATE=115200
 
 SRC			=	main.c \
-				uart.c \
-				parsing.c \
 				utils.c \
-				spi.c
+				uart.c	\
+				i2c.c
 
 all: hex flash 
 

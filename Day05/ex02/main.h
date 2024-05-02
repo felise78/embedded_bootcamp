@@ -1,12 +1,15 @@
 #ifndef MAIN_H
 # define MAIN_H
 
-	//#include <avr/io.h>
-	// #include <util/delay.h>
+	#include <avr/io.h>
+	#include <util/delay.h>
 	#include <stdbool.h>
 	#include <stddef.h>
-	//#include <avr/eeprom.h>
+	#include <avr/eeprom.h>
 
-	int	ft_strncmp(const char *s1, const char *s2, size_t n);
+	#define UBRR_VALUE      ((F_CPU / (16 * BAUDRATE))) // p.182
+	
+	void uart_init();
+	void uart_printstr(const char *str);
 
 #endif

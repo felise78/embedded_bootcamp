@@ -3,6 +3,10 @@
 bool strcmp_cheatcode(char *str)
 {
     char cheatcode[MAX - 1] = "#FULLRAINBOW";
+    // uart_printstr("cheatcode : ");
+    // uart_printstr(cheatcode);
+    // uart_printstr("\r\nstr: ");
+    // uart_printstr("\r\n");
     uint8_t i = 0;
     while (i < MAX - 1)
     {
@@ -25,7 +29,7 @@ bool parse(char *color)
     }
     if (color[7] != 'D')
         return false;
-    if (color[8] < '6' || color[9] > '8')
+    if (color[8] < '6' || color[8] > '8')
         return false;
     return true;
 }

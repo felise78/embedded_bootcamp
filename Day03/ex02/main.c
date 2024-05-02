@@ -1,75 +1,46 @@
 #include "main.h"
 
-volatile uint8_t ascendant = 1;
 
-#define LED_FREQ 50
-#define PRESCALE1 256
-const uint16_t ledfreq = F_CPU / (PRESCALE1 * LED_FREQ); 
+#define PRESCALE 1024
 
-#define PWM_FREQ 2
-#define PRESCALE0 1024
-const uint8_t pwm_freq =  (F_CPU / PRESCALE0) / 100 * PWM_FREQ;
-//
-volatile uint8_t width = 1;
+void uart_init() {
 
-ISR (TIMER0_COMPA_vect) {
-    
-    if (ascendant)
-    {
-        if (width == 100)
-            ascendant = 0;
-        width++;
-    }
-    else 
-    { 
-        if (width == 0)
-            ascendant = 1;
-        width--;
-    }
-    OCR1A = (ledfreq / 100) * width;
+    // p181.
+    // Set baud rate
+    UBRR0 = (unsigned char)(UBRR_VALUE);
+    // Set frame format: 8 data, 1 stop bit, no parity
+    UCSR0C = (1 << UCSZ01) | (1 << UCSZ00);
+    // Enable transmitter
+    UCSR0B = (1 << RXEN0) | (1 << TXEN0);
 }
 
-void    init_timer0()
-{
-   // mode 7 (compte de 0 a OCRA)
-    TCCR0A |= (1 << WGM01) | (1 << WGM00); 
-    TCCR0B |= (1 << WGM02);
-    // pre-division de 1024
-    TCCR0B |= (1 << CS02) | (1 << CS00);
-    OCR0A = pwm_freq;
+// recevoir
+char uart_rx(void) {
+    // Attendre la réception d'un caractère
+    while (!(UCSR0A & (1 << RXC0)))
+        ;
+    return UDR0;
 }
 
-void    init_timer1()
-{
-    TCCR1A = 0;
-    TCCR1B = 0;
-
-    // mode 14
-    TCCR1A |= (1 << WGM11);
-    TCCR1B |= (1 << WGM12) | (1 << WGM13);
-    // pre-division de 256
-    TCCR1B |= (1 << CS12);// | (1 << CS10);
-    // comportement de sortie 
-    TCCR1A |= (1 << COM1A1); // allume la led a bottom / 0 puis l'eteint a OCR1A
-
-    ICR1 = ledfreq;
-}
-
-void    init_interrupt()
-{
-    TIMSK0 |= (1 << OCIE0A);
-     sei();
+// transmettre
+void uart_tx(char data) {
+    // Attendre que le tampon de transmission soit prêt
+    while (!(UCSR0A & (1 << UDRE0)))
+        ;
+    UDR0 = data;
 }
 
 int main() {
 
+    uart_init();
 
-    DDRB |= (1 << PB1);
-    init_timer0();
-    init_timer1();
-    init_interrupt();
+    char received_char;
 
-   
+    while (1) {
+        received_char = uart_rx();
+        uart_tx(received_char);
+        _delay_ms(10);
+    }
 
-    while (1);
+    return 0;
 }

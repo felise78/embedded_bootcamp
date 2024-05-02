@@ -8,15 +8,6 @@
 volatile uint8_t compteur[4] = {0};
 volatile uint8_t iterator;
 
-// void EEPROM_write(uint8_t* addr, uint8_t value) {
-//     eeprom_busy_wait();
-//     eeprom_write_byte(addr, value);
-// }
-
-// uint8_t EEPROM_read(uint8_t* addr) {
-//     eeprom_busy_wait();
-//     return eeprom_read_byte(addr);
-// }
 
 void updateLEDs() {
     

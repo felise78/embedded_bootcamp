@@ -9,7 +9,7 @@ const uint16_t ledfreq = F_CPU / (PRESCALE1 * LED_FREQ);
 #define PWM_FREQ 2
 #define PRESCALE0 1024
 const uint8_t pwm_freq =  (F_CPU / PRESCALE0) / 100 * PWM_FREQ;
-//
+
 volatile uint8_t width = 1;
 
 ISR (TIMER0_COMPA_vect) {

@@ -5,10 +5,7 @@
 
 #define EEPROM_SIZE 1024
 
-// 1024 octets de memoire EEPROM
-
 // bool safe_eeprom_read(void *buffer, size_t offset, size_t length)
-
 
 
 bool safe_eeprom_write(void *buffer, size_t offset, size_t length)
@@ -29,64 +26,58 @@ bool safe_eeprom_write(void *buffer, size_t offset, size_t length)
 	temp_buffer[1] = 0x42;
 	for (size_t i = 2; i < length + 2; i++)
 	{
-		int j = i - 2;
-		temp_buffer[i] = buff[j];
+		temp_buffer[i + 2] = buff[i];
 	}	
 
+	// verifier que ce n'est pas deja ecrit dans l'eeprom
+	size_t i = 0;
+	for (; i < length + 2; i++)
+	{
+		uint8_t tmp = eeprom_read_byte((const uint8_t *)(offset + i));
+		uart_printstr("boucle de comparaison\r\n");
+		if (tmp != temp_buffer[i])
+			break;
+	}
+	if (i == length + 1)
+	{
+		uart_printstr("was already written\r\n");
+		return false;
+	}
+	else 	// ecrire dans l'eeprom
+	{
+		uart_printstr("n'etait pas dans l'eeprom\r\n");
+		for (i = 0; i < length + 2 ; ++i)
+		{
+			uart_printstr("boucle d'ecriture\r\n");
+			eeprom_write_byte((uint8_t *)(offset + i), temp_buffer[i]);
+		}
 
-	// test : imprimer le contenu de buffer
+	}
 
-	for (size_t i = 0; i < length + 2; i++) {
-		printf("%02X\n", temp_buffer[i]);
-    }
-
-	// for (size_t i = 0; i < length; i++) {
-    //     uint8_t tmp = buff[i];
-	// 	printf("%02X\n", tmp);
+	// // test : imprimer le contenu de buffer
+	// for (size_t i = 0; i < length + 2; i++) {
+	// 	printf("%02X\n", temp_buffer[i]);
     // }
 
-	// uint16_t magic = 0xFE42;
+	// // for (size_t i = 0; i < length; i++) {
+    // //     uint8_t tmp = buff[i];
+	// // 	printf("%02X\n", tmp);
+    // // }
 
-	// uint8_t tmp_data;
 
-	// size_t i = 0;
-	// uint8_t tmp_eeprom;
-	// tmp_eeprom = eeprom_read_byte((uint8_t *)offset);
-	// // verifier la memoire a cet emplacement
-	// // ne pas reecrire si c'est la meme chose
-	// while (strncmp(tmp_eeprom, buffer));
 
-	// // if nombre magic est dans buffer
-	// eeprom_read_block(&tmp, buffer, length + sizeof(uint32_t));
-	// if((tmp << 16) == MAGICNUMBER)
-	// {
-	// 	for (int i = 0; i < 5; i++)
-	// 	{
-	// 		PORTD = (1 << 6);
-	// 		_delay_ms(100);
-	// 		PORTD = (1 << 3);
-	// 		_delay_ms(100);
-	// 	}
-	// 	// on peut write car c'est a nous
-	// }
-	// else
-	// {
-
-	// 	*(uint32_t*)buffer = ((*(uint32_t*)buffer << 16) | MAGICNUMBER);
-
-	// }
-	// // 0xAB != 0xFE42
-	// // else
-	// // on ecrite le magic number
-	// // et on write car c'est a nous mtn
 	return true;
 }
 
 int main () {
 
-	char str[20] = "Hello world!\0";
-	uint16_t number = 0xFE42;
+	uart_init();
 
-	safe_eeprom_write(&number, 0, sizeof(number));
+	char str[20] = "Hello world!\0";
+	//uint16_t number = 0xFE42;
+
+	safe_eeprom_write(str, 0, sizeof(str));
+	_delay_ms(1000);
+	safe_eeprom_write(str, 0, sizeof(str));
 
 }

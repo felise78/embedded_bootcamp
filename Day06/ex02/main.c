@@ -15,9 +15,10 @@ void init_rgb()
 
     // set les timers
     TCCR0A |= (1 << COM0A1) | (1 << COM0B1) | (1 << WGM01) | (1 << WGM00);
-    TCCR0B |= (1 << CS00); // Mode 15, pas de préscaleur (fast PWM)
+    TCCR0B |= (1 << CS00); // Mode 3, pas de prescaleur
+
     TCCR2A |= (1 << COM2B1) | (1 << WGM21) | (1 << WGM20);
-    TCCR2B |= (1 << CS20); // Mode PWM, pas de préscaleur (fast PWM)
+    TCCR2B |= (1 << CS20); // Mode Fast PWM, pas de préscaleur
 }
 
 void set_rgb(uint8_t r, uint8_t g, uint8_t b) {
@@ -56,6 +57,5 @@ int main ()
 {
     init_rgb();
     display_color_wheel();
-   
     return 0;
 }

@@ -21,7 +21,6 @@ void uart_tx(char c) {
     // Wait for empty transmit buffer
     while (!(UCSR0A & (1 << UDRE0)));
 
-    // Put data into buffer, sends the data
     UDR0 = c;
 }
 
@@ -30,6 +29,8 @@ int main() {
     uart_init();
     while (1) {
         uart_tx('Z');
+        uart_tx('\r');
+        uart_tx('\n');
         _delay_ms(1000);
     }
 }
@@ -57,7 +58,9 @@ int main() {
 // n'y a pas de parité (None).
 
 // 1 bit d'arrêt : Après les 8 bits de données, il y a un bit 
-// d'arrêt qui indique la fin de la transmission d'un caractère. Cela permet au récepteur de savoir quand commence et se termine chaque caractère.
+// d'arrêt qui indique la fin de la transmission d'un caractère. 
+// Cela permet au récepteur de savoir quand commence et se termine 
+// chaque caractère.
 
 // ------------------------------------------------ //
 
